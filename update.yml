@@ -1,0 +1,8 @@
+---
+- hosts: localhost
+  tasks:
+    - name: Ensure Apache is installed
+      apt:
+        name: apache2
+        state: latest
+        update_cache: yes
