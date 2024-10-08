@@ -1,8 +1,10 @@
 ---
-- hosts: localhost
+- hosts: shreshta
+  become: true
   tasks:
     - name: Ensure Apache is installed
       apt:
         name: apache2
         state: latest
         update_cache: yes
+
