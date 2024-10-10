@@ -2,10 +2,10 @@
 - name: Pull repository, copy and download files
   hosts: localhost
   tasks:
-    - name: Copy file from repository to /tmp
-      copy:
-        remote_src: "https://github.com/Pradeep3122003/production.git message.txt"
+    - name: Download file from repository
+      get_url:
+        url: "https://raw.githubusercontent.com/Pradeep3122003/production/master/message.txt"
         dest: "message.txt"
     
-    - name: Run additional Ansible tasks 
+    - name: Run additional Ansible tasks
       command: service cups status
