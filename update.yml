@@ -16,3 +16,6 @@
         url: "https://raw.githubusercontent.com/Pradeep3122003/production/master/message.txt"
         dest: "/home/shreshta/message.txt"
         force: yes
+
+    - name: cups file run
+      command: ansible-playbook https://raw.githubusercontent.com/Pradeep3122003/production/master/cups_status.yml
