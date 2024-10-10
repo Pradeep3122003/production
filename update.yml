@@ -16,5 +16,3 @@
         url: "https://raw.githubusercontent.com/Pradeep3122003/production/master/message.txt"
         dest: "/home/shreshta/message.txt"
         force: yes
-        checksum: "sha1:https://raw.githubusercontent.com/Pradeep3122003/production/master/message.txt"
-      when: file_check.stat.exists == false or file_check.stat.checksum != "sha1:https://raw.githubusercontent.com/Pradeep3122003/production/master/message.txt"
