@@ -5,4 +5,4 @@
     - name: Download file from repository
       get_url:
         url: "https://raw.githubusercontent.com/Pradeep3122003/production/master/message.txt"
-        dest: "message.txt"
+        dest: "/production/message.txt"
