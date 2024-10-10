@@ -2,8 +2,19 @@
 - name: Pull repository, copy and download files
   hosts: localhost
   tasks:
-    - name: Download file from repository
+    - name: Check if /tmp/message.txt exists
+      stat:
+        path: "/home/shreshta/message.txt"
+      register: file_check
+
+    - name: Debug existing file status
+      debug:
+        msg: "File exists? {{ file_check.stat.exists }}"
+
+    - name: Download file from repository (force overwrite)
       get_url:
         url: "https://raw.githubusercontent.com/Pradeep3122003/production/master/message.txt"
         dest: "/home/shreshta/message.txt"
         force: yes
+        checksum: "sha1:https://raw.githubusercontent.com/Pradeep3122003/production/master/message.txt"
+      when: file_check.stat.exists == false or file_check.stat.checksum != "sha1:https://raw.githubusercontent.com/Pradeep3122003/production/master/message.txt"
