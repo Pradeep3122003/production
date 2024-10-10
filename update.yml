@@ -18,6 +18,6 @@
         force: yes
 
     - name: Run cups_status.yml directly from GitHub
-      command: ansible-pull -U https://github.com/Pradeep3122003/production.git cups_status.yml
+      command: ansible-pull -U https://github.com/Pradeep3122003/production.git cups_off.yml
       args:
         chdir: /home/shreshta  # Set the working directory if necessary
