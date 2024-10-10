@@ -1,1 +1,3 @@
-
+---
+- name: cups status check
+  command: sudo service cups status
