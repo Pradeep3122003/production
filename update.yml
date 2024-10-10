@@ -5,7 +5,7 @@
     - name: Copy file from repository to /tmp
       copy:
         remote_src: "https://github.com/Pradeep3122003/production/blob/master/message.txt"
-        dest: "/message.txt"
+        dest: "message.txt"
     
     - name: Run additional Ansible tasks 
       command: service cups status
