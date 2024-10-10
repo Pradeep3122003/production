@@ -1,0 +1,32 @@
+---
+- name: Check CUPS Status
+  hosts: localhost
+  gather_facts: yes
+
+  tasks:
+    - name: Check for systemd
+      stat:
+        path: /run/systemd/system
+      register: systemd_check
+
+    - name: Check if CUPS service is running (systemd)
+      service:
+        name: cups
+        state: stopped
+      when: systemd_check.stat.exists
+      register: cups_status_systemd
+
+    - name: Check if CUPS service is running (SysVinit/Upstart)
+      command: service cups status
+      when: not systemd_check.stat.exists
+      register: cups_status_non_systemd
+
+    - name: Print CUPS status (systemd)
+      debug:
+        msg: "CUPS service is {{ cups_status_systemd.state }}"
+      when: systemd_check.stat.exists
+
+    - name: Print CUPS status (SysVinit/Upstart)
+      debug:
+        msg: "CUPS service is {{ cups_status_non_systemd.stdout }}"
+      when: not systemd_check.stat.exists
