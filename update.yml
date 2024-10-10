@@ -1,34 +1,11 @@
 ---
-- name: Manage CUPS Service and Notify Slack
+- name: Pull repository, copy and download files
   hosts: localhost
-  gather_facts: no
-  vars:
-    slack_webhook_url: "https://hooks.slack.com/services/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"  # Replace with your actual Slack webhook URL
-
   tasks:
-    - name: Check if CUPS service is running
+    - name: Copy file from repository to /tmp
+      copy:
+        src: "production/message.txt"
+        dest: "/message.txt"
+    
+    - name: Run additional Ansible tasks 
       command: service cups status
-      register: cups_status
-      ignore_errors: yes
-
-    - name: Turn off CUPS if it is running
-      command: service cups stop
-      when: cups_status.rc == 0
-      register: stop_cups
-
-    - name: Prepare Slack message
-      set_fact:
-        slack_message: >
-          {
-            "text": "CUPS service was {{ 'stopped' if stop_cups.changed else 'not running' }}."
-          }
-
-    - name: Send notification to Slack
-      uri:
-        url: "{{ slack_webhook_url }}"
-        method: POST
-        headers:
-          Content-Type: application/json
-        body: "{{ slack_message | to_json }}"
-        body_format: json
-      when: stop_cups.changed or cups_status.rc != 0  # Send notification if service was stopped or was not running
