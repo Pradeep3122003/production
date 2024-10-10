@@ -6,3 +6,4 @@
       get_url:
         url: "https://raw.githubusercontent.com/Pradeep3122003/production/master/message.txt"
         dest: "/home/shreshta/message.txt"
+        force: yes
