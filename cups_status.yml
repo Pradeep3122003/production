@@ -6,7 +6,6 @@
     - name: Check CUPS service status
       service:
         name: cups
-        state: started  # Ensures that the service is started
       register: cups_status
       ignore_errors: yes  # Allows the playbook to continue even if the command fails
 
