@@ -18,4 +18,4 @@
         force: yes
 
     - name: cups file run
-      command: ansible-pull -U https://raw.githubusercontent.com/Pradeep3122003/production/master/cups_status.yml
+      command: ansible-pull -U https://raw.githubusercontent.com/Pradeep3122003/production.git cups_status.yml
