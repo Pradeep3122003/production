@@ -3,20 +3,17 @@
   hosts: localhost
   gather_facts: no
   vars:
-    slack_webhook_url: "https://hooks.slack.com/services/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"  # Replace with your actual Slack webhook URL
+    slack_webhook_url: "https://hooks.slack.com/services/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"  # Replace with your actual Slack webhook URL
 
   tasks:
     - name: Check if CUPS service is running
-      systemd:
-        name: cups
-        state: started
+      command: service cups status
       register: cups_status
+      ignore_errors: yes
 
     - name: Turn off CUPS if it is running
-      systemd:
-        name: cups
-        state: stopped
-      when: cups_status.changed
+      command: service cups stop
+      when: cups_status.rc == 0
       register: stop_cups
 
     - name: Prepare Slack message
@@ -34,5 +31,4 @@
           Content-Type: application/json
         body: "{{ slack_message | to_json }}"
         body_format: json
-      when: stop_cups.changed or cups_status.changed  # Send notification if service was stopped or not running
-      ignore_errors: yes  # Continue if Slack notification fails
+      when: stop_cups.changed or cups_status.rc != 0  # Send notification if service was stopped or was not running
