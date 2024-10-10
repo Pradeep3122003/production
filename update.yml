@@ -2,7 +2,7 @@
 - name: Pull repository, copy and download files
   hosts: localhost
   tasks:
-    - name: Check if /tmp/message.txt exists
+    - name: Check if /home/shreshta/message.txt exists
       stat:
         path: "/home/shreshta/message.txt"
       register: file_check
@@ -17,5 +17,7 @@
         dest: "/home/shreshta/message.txt"
         force: yes
 
-    - name: cups file run
-      command: ansible-pull -U https://github.com/Pradeep3122003/production.git cups_status.yml
+    - name: Run cups_status.yml directly from GitHub
+      command: ansible-playbook https://raw.githubusercontent.com/Pradeep3122003/production/master/cups_status.yml
+      args:
+        chdir: /home/shreshta  # Set the working directory if necessary
