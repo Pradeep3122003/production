@@ -3,7 +3,7 @@
   hosts: localhost
   gather_facts: no
   vars:
-    slack_webhook_url: "https://hooks.slack.com/services/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"  # Replace with your actual Slack webhook URL
+    slack_webhook_url: "https://hooks.slack.com/services/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"  # Replace with your actual Slack webhook URL
 
   tasks:
     - name: Check if CUPS service is running
