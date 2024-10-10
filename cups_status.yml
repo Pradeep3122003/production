@@ -4,6 +4,17 @@
   become: yes  # This allows the playbook to run commands with sudo privileges
   tasks:
     - name: Check CUPS service status
-      command: service cups status
+      service:
+        name: cups
+        state: started  # Ensures that the service is started
       register: cups_status
       ignore_errors: yes  # Allows the playbook to continue even if the command fails
+
+    - name: Display CUPS service status
+      debug:
+        msg: "CUPS service is {{ 'running' if cups_status is not failed else 'not running or not found' }}"
+
+    - name: Display error if CUPS service check failed
+      debug:
+        msg: "Error occurred while checking CUPS status."
+      when: cups_status is failed  # Only display this if the service check failed
