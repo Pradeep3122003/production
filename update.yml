@@ -2,31 +2,40 @@
 - name: Pull repository, copy and download files
   hosts: localhost
   tasks:
-    - name: client version
+    - name: Check client version
       stat:
-        path: "home/shreshta/version"
+        path: "/home/shreshta/version"
       register: version_client
 
-    - name: server version
+    - name: Download server version from repository
+      get_url:
+        url: "https://raw.githubusercontent.com/Pradeep3122003/production/master/version"
+        dest: "/home/shreshta/version_server"
+        force: yes
+
+    - name: Check server version file checksum
       stat:
-        path: "home/shreshta/version"
+        path: "/home/shreshta/version_server"
       register: version_server
-      
-    - name: other files
-      stat:
-        path: "https://raw.githubusercontent.com/Pradeep3122003/production/master/version"
-      register: version_server
-      
-    - name: check version
+
+    - name: Compare versions
       debug:
         msg: "Version up to date"
       when: version_server.stat.checksum == version_client.stat.checksum
 
-    - name: Debug existing file status
+    - name: Notify if versions are different
       debug:
-        msg: "File exists? {{ file_check.stat.exists }}"
+        msg: "Versions are different"
+      when: version_server.stat.checksum != version_client.stat.checksum
 
-    - name: Download file from repository (force overwrite)
+    - name: Overwrite client version with server version if they are different
+      copy:
+        src: "/home/shreshta/version_server"
+        dest: "/home/shreshta/version"
+        force: yes
+      when: version_server.stat.checksum != version_client.stat.checksum
+
+    - name: Download message.txt from repository (force overwrite)
       get_url:
         url: "https://raw.githubusercontent.com/Pradeep3122003/production/master/message.txt"
         dest: "/home/shreshta/message.txt"
