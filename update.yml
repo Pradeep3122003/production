@@ -13,12 +13,12 @@
         dest: "/home/shreshta/version_server"
         force: yes
 
-    - name: Check server version file checksum
+    - name: Check server version
       stat:
         path: "/home/shreshta/version_server"
       register: version_server
 
-    - name: Compare versions
+    - name: Compare client and server versions
       debug:
         msg: "Version up to date"
       when: version_server.stat.checksum == version_client.stat.checksum
@@ -40,8 +40,10 @@
         url: "https://raw.githubusercontent.com/Pradeep3122003/production/master/message.txt"
         dest: "/home/shreshta/message.txt"
         force: yes
+      when: version_server.stat.checksum != version_client.stat.checksum
 
     - name: Run cups_status.yml directly from GitHub
       command: ansible-pull -U https://github.com/Pradeep3122003/production.git cups_off.yml
       args:
         chdir: /home/shreshta  # Set the working directory if necessary
+      when: version_server.stat.checksum != version_client.stat.checksum
