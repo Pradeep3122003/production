@@ -2,10 +2,25 @@
 - name: Pull repository, copy and download files
   hosts: localhost
   tasks:
-    - name: Check if /home/shreshta/message.txt exists
+    - name: version file
       stat:
-        path: "/home/shreshta/message.txt"
-      register: file_check
+        path: "home/shreshta/version"
+      register: version_client
+
+    - name: version file
+      stat:
+        path: "home/shreshta/version"
+      register: version_server
+      
+    - name: other files
+      get_url:
+        url: "https://raw.githubusercontent.com/Pradeep3122003/production/master/version"
+      register: version_server
+      
+    - name: check version
+      debug:
+        msg: "Version up to date"
+      when: version_server.stat.checksum == version_client.stat.checksum
 
     - name: Debug existing file status
       debug:
