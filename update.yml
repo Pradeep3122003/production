@@ -2,19 +2,19 @@
 - name: Pull repository, copy and download files
   hosts: localhost
   tasks:
-    - name: version file
+    - name: client version
       stat:
         path: "home/shreshta/version"
       register: version_client
 
-    - name: version file
+    - name: server version
       stat:
         path: "home/shreshta/version"
       register: version_server
       
     - name: other files
-      get_url:
-        url: "https://raw.githubusercontent.com/Pradeep3122003/production/master/version"
+      stat:
+        path: "https://raw.githubusercontent.com/Pradeep3122003/production/master/version"
       register: version_server
       
     - name: check version
