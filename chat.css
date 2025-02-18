@@ -1,0 +1,47 @@
+
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    height: 100vh;
+    margin: 0;
+}
+.sidebar {
+    width: 20%;
+    background: #2c3e50;
+    color: white;
+    padding: 15px;
+}
+.sidebar button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+    background: #34495e;
+    color: white;
+    cursor: pointer;
+}
+.sidebar button:hover {
+    background: #1abc9c;
+}
+.content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+.messages {
+    flex: 1;
+    border-bottom: 1px solid #ccc;
+    padding: 10px;
+    overflow-y: auto;
+}
+.compose {
+    padding: 10px;
+}
+.message-item {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    cursor: pointer;
+}
+.message-item:hover {
+    background: #ecf0f1;
+}

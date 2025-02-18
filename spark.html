@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spark</title>
+    <link rel="stylesheet" href="chat.css">
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Messages</h2>
+        <button onclick="showInbox()">Inbox</button>
+        <button onclick="showSent()">Sent</button>
+        <div id="messageList"></div>
+    </div>
+    <div class="content">
+        <div class="messages" id="messageView">
+            <h3>Select a message to view</h3>
+        </div>
+        <div class="compose">
+            <input type="text" id="recipient" placeholder="Recipient Mobile Number" style="width: 100%; padding: 5px;">
+            <textarea id="message" placeholder="Write your message..." style="width: 100%; padding: 5px; height: 100px;"></textarea>
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+    
+    <script>
+        const inboxMessages = [
+            { sender: "9876543210", subject: "Meeting", body: "Let's meet tomorrow at 10 AM." },
+            { sender: "8765432109", subject: "Project Update", body: "The project is on track." },
+        ];
+        
+        const sentMessages = [];
+        
+        function loadMessages(messageArray) {
+            const messageList = document.getElementById('messageList');
+            messageList.innerHTML = '';
+            messageArray.forEach((message, index) => {
+                const div = document.createElement('div');
+                div.className = 'message-item';
+                div.innerHTML = `<strong>${message.sender}</strong>: ${message.subject}`;
+                div.onclick = () => viewMessage(message);
+                messageList.appendChild(div);
+            });
+        }
+        
+        function showInbox() {
+            loadMessages(inboxMessages);
+        }
+        
+        function showSent() {
+            loadMessages(sentMessages);
+        }
+        
+        function viewMessage(message) {
+            const messageView = document.getElementById('messageView');
+            messageView.innerHTML = `<h3>${message.subject}</h3><p><strong>From:</strong> ${message.sender}</p><p>${message.body}</p>`;
+        }
+        
+        function sendMessage() {
+            const recipient = document.getElementById('recipient').value;
+            const message = document.getElementById('message').value;
+            if (recipient && message) {
+                sentMessages.push({ sender: "You", subject: "Sent Message", body: message });
+                alert("Message sent!");
+                document.getElementById('recipient').value = '';
+                document.getElementById('message').value = '';
+            } else {
+                alert("Please fill in all fields");
+            }
+        }
+        
+        showInbox();
+    </script>
+</body>
+</html>
