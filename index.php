@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $sql_insert = "INSERT INTO login VALUES ('$name', '$mob', '$pass')";
             if ($link->query($sql_insert) === TRUE) {
                 $exist = 2;
-                header("Location: sec.php?name=John&mobile=1234567890");
+                header("Location: login.php");
 
             } else {
                 echo "<p>Error: " . $link->error . "</p>";
